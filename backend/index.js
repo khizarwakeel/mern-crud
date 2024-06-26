@@ -1,13 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
-const dotenv = require("dotenv");
-dotenv.config();
+const dotenv = require("dotenv").config();
+const cors = require("cors");
 const port = process.env.PORT || 8000;
+const route = require("./routes/route");
 
-app.get("/", (req, res) => {
-  res.send("Api is running! Wow");
-});
+app.use(cors());
+app.use(express.json());
 
 mongoose
   .connect(process.env.URI)
@@ -17,6 +17,8 @@ mongoose
   .catch((error) => {
     console.log("Error", error);
   });
+
+app.use(route);
 
 app.listen(port, (error) => {
   if (error) {

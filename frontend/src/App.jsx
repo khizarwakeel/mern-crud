@@ -1,13 +1,22 @@
-import React from "react";
+import Create from "./components/create";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Read from "./components/read";
+import Update from "./components/update";
 
-function App() {
+const App = () => {
   return (
     <>
       <div>
-        <h1>Hello World!</h1>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Create />} />
+            <Route path="/read" element={<Read />} />
+            <Route path="/update" element={<Update />} />
+          </Routes>
+        </BrowserRouter>
       </div>
     </>
   );
-}
+};
 
 export default App;
