@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Image from "/assets/mern.png";
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [age, setAge] = useState(0);
-  const [error, setError] = useState(0);
+  const [age, setAge] = useState();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,13 +29,14 @@ const Create = () => {
       setName("");
       setEmail("");
       setAge(0);
+      navigate("/read");
     }
   };
   return (
     <section className="flex justify-center h-screen w-full flex-col">
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="mx-auto">
-          <img className="w-[20rem]" src={Image} alt="MERN Stack" />
+          <img className="w-[18rem]" src={Image} alt="MERN Stack" />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-[#439945]">
             Create the Post
           </h2>
@@ -52,6 +55,7 @@ const Create = () => {
                   id="name"
                   name="name"
                   type="text"
+                  placeholder="Enter your age"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   autoComplete="current-name"
@@ -74,6 +78,7 @@ const Create = () => {
                   id="email"
                   name="email"
                   type="email"
+                  placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -99,6 +104,7 @@ const Create = () => {
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
                   required
+                  placeholder="0"
                   autoComplete="current-age"
                   className="block w-full pl-2 rounded-md outline-none border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                 />
