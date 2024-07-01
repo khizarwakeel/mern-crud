@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Image from "/assets/mern.png";
 import { useNavigate } from "react-router-dom";
@@ -9,21 +9,22 @@ const Update = () => {
   const [age, setAge] = useState();
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const {id} = useParams();
+  const { id } = useParams();
+
+  // Getting Single User Data
 
   const getSingleUser = async () => {
     const response = await fetch(`http://localhost:5000/${id}`);
-       const result = await response.json();
+    const result = await response.json();
     if (!response.ok) {
       console.log(result.error);
       setError(result.error);
     }
     if (response.ok) {
-      console.log(result);
-      setError("Updated Successfully");
-      setTimeout(() => {
-        setError("");
-      }, 1000);
+      setError("");
+      setName(result.name);
+      setEmail(result.email);
+      setAge(result.age);
     }
   };
 
@@ -31,28 +32,26 @@ const Update = () => {
     getSingleUser();
   }, []);
 
-  // const handleEdit = async (e) => {
-  //   e.preventDefault();
-  //   const addUser = { name, email, age };
-  //   const response = await fetch("http://localhost:5000/", {
-  //     method: "POST",
-  //     body: JSON.stringify(addUser),
-  //     headers: { "Content-Type": "application/json" },
-  //   });
-  //   const result = await response.json();
-  //   if (!response.ok) {
-  //     console.log(result.error);
-  //     setError(result.error);
-  //   }
-  //   if (response.ok) {
-  //     console.log(result);
-  //     setError("");
-  //     setName("");
-  //     setEmail("");
-  //     setAge(0);
-  //     navigate("/read");
-  //   }
-  // };
+  // Send Updated data to backend
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    const updatedUser = { name, email, age };
+    const response = await fetch(`http://localhost:5000/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(updatedUser),
+      headers: { "Content-Type": "application/json" },
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      console.log(result.error);
+      setError(result.error);
+    }
+    if (response.ok) {
+      setError("");
+      navigate("/read");
+    }
+  };
 
   return (
     <section className="flex justify-center h-screen w-full flex-col">
@@ -64,7 +63,7 @@ const Update = () => {
           </h2>
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form  className="space-y-6">
+          <form className="space-y-6" onSubmit={handleEdit}>
             <div>
               <label
                 htmlFor="name"

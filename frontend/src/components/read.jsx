@@ -16,7 +16,6 @@ const Read = () => {
         setError(result.error);
       }
 
-      console.log(result);
       setData(result);
     } catch (error) {
       console.log(error);
@@ -35,7 +34,6 @@ const Read = () => {
       setError(result.error);
     }
     if (response.ok) {
-      console.log(result);
       getData();
       setError("Deleted Successfully");
       setTimeout(() => {
@@ -48,7 +46,6 @@ const Read = () => {
     getData();
   }, []);
 
-  console.log(data, "Data");
 
   return (
     <section className="mt-28">

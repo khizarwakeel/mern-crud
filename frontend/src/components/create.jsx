@@ -24,7 +24,6 @@ const Create = () => {
       setError(result.error);
     }
     if (response.ok) {
-      console.log(result);
       setError("");
       setName("");
       setEmail("");
